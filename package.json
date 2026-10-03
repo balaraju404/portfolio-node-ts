@@ -1,0 +1,33 @@
+{
+ "name": "portfolio-node-ts",
+ "version": "1.0.0",
+ "description": "Portfolio API built with Node.js, TypeScript, Express and MongoDB",
+ "homepage": "https://github.com/balaraju404/portfolio-node-ts#readme",
+ "bugs": {
+  "url": "https://github.com/balaraju404/portfolio-node-ts/issues"
+ },
+ "repository": {
+  "type": "git",
+  "url": "git+https://github.com/balaraju404/portfolio-node-ts.git"
+ },
+ "license": "ISC",
+ "author": "Balaraju",
+ "type": "module",
+ "main": "dist/server.js",
+ "scripts": {
+  "dev": "tsx watch src/server.ts",
+  "build": "tsc",
+  "start": "node dist/server.js"
+ },
+ "dependencies": {
+  "dotenv": "^18.0.5",
+  "express": "^5.2.1",
+  "mongoose": "^9.10.4"
+ },
+ "devDependencies": {
+  "@types/express": "^5.0.6",
+  "@types/node": "^26.6.4",
+  "tsx": "^4.23.15",
+  "typescript": "^7.0.2"
+ }
+}

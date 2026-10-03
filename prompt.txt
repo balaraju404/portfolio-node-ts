@@ -1,0 +1,442 @@
+Create a production-ready backend project using the **latest stable versions** of Node.js, TypeScript, and MongoDB ecosystem packages available at the time of generation.
+
+## Technology Stack
+
+Use:
+
+* **Node.js** — latest stable LTS version
+* **TypeScript** — latest stable version
+* **MongoDB** — latest stable compatible version
+* **Mongoose** — latest stable version
+* **Express.js** — latest stable version
+* **npm** — latest compatible version
+* **ESLint** — latest stable version
+* **Prettier** — latest stable version
+* **tsx** or an equivalent modern TypeScript development runner
+* **dotenv** or a modern environment configuration approach
+* **Zod** for request/environment validation
+* **Pino** or another production-grade structured logger
+* **Jest/Vitest** for unit and integration testing
+
+Before generating the project, verify the latest stable versions and ensure all dependencies are mutually compatible. Do not use deprecated packages or outdated configuration patterns.
+
+## Project Requirements
+
+Build a clean, scalable REST API architecture suitable for a real-world production application.
+
+Use:
+
+* TypeScript with strict mode enabled
+* Modern Node.js APIs
+* ESM modules where appropriate
+* Clean Architecture / modular architecture
+* Dependency separation
+* Environment-based configuration
+* Centralized error handling
+* Request validation
+* Structured logging
+* Secure HTTP configuration
+* Graceful shutdown
+* Health-check endpoint
+* MongoDB connection management
+* Proper async/await error handling
+
+## Recommended Project Structure
+
+Create a structure similar to:
+
+src/
+├── app.ts
+├── server.ts
+│
+├── config/
+│   ├── env.ts
+│   └── database.ts
+│
+├── modules/
+│   └── users/
+│       ├── user.model.ts
+│       ├── user.schema.ts
+│       ├── user.service.ts
+│       ├── user.controller.ts
+│       ├── user.routes.ts
+│       └── user.types.ts
+│
+├── middleware/
+│   ├── error.middleware.ts
+│   ├── not-found.middleware.ts
+│   └── request-id.middleware.ts
+│
+├── utils/
+│   ├── api-error.ts
+│   └── async-handler.ts
+│
+├── routes/
+│   └── index.ts
+│
+└── types/
+└── express.d.ts
+
+tests/
+├── unit/
+└── integration/
+
+.env
+.env.example
+.gitignore
+.eslintrc...
+.prettierrc
+tsconfig.json
+package.json
+README.md
+Dockerfile
+docker-compose.yml
+
+You may improve this structure if a better modern architecture is appropriate.
+
+## MongoDB Requirements
+
+Configure MongoDB using Mongoose.
+
+Create:
+
+* MongoDB connection module
+* Connection retry/error handling
+* Graceful disconnect
+* Environment-based MongoDB URI
+* Database name configuration
+* Mongoose schema/model setup
+* Proper indexes
+* Timestamps
+* Validation where appropriate
+
+Example environment variables:
+
+PORT=3000
+NODE_ENV=development
+MONGODB_URI=mongodb://localhost:27017
+MONGODB_DATABASE=myapp
+LOG_LEVEL=info
+
+Do not hard-code credentials or connection strings.
+
+## API
+
+Create a sample `Users` module demonstrating the complete architecture.
+
+Implement:
+
+### POST /api/v1/users
+
+Create a user.
+
+Validate:
+
+* name
+* email
+* password
+
+Do not store passwords as plain text.
+
+### GET /api/v1/users
+
+Return a paginated list of users.
+
+Support:
+
+* page
+* limit
+* sorting
+* basic filtering
+
+### GET /api/v1/users/:id
+
+Return a user by MongoDB ObjectId.
+
+### PATCH /api/v1/users/:id
+
+Update a user.
+
+### DELETE /api/v1/users/:id
+
+Delete a user.
+
+Use appropriate HTTP status codes and consistent API responses.
+
+## Validation
+
+Use Zod for:
+
+* Environment variables
+* Request body
+* Query parameters
+* Route parameters
+
+Return useful validation errors without exposing sensitive information.
+
+## Error Handling
+
+Implement a centralized error-handling system.
+
+Support:
+
+* Validation errors
+* MongoDB/Mongoose errors
+* Duplicate key errors
+* Invalid ObjectId
+* Not found errors
+* Unexpected errors
+
+Use a consistent response format such as:
+
+{
+"success": false,
+"message": "User not found",
+"error": {
+"code": "USER_NOT_FOUND"
+}
+}
+
+Do not expose stack traces in production.
+
+## API Response Format
+
+Use a consistent response structure.
+
+Success:
+
+{
+"success": true,
+"data": {},
+"message": "Operation successful"
+}
+
+Paginated response:
+
+{
+"success": true,
+"data": [],
+"pagination": {
+"page": 1,
+"limit": 20,
+"total": 100,
+"totalPages": 5
+}
+}
+
+## Security
+
+Add appropriate security middleware.
+
+Consider:
+
+* Helmet
+* CORS
+* Request body limits
+* Rate limiting
+* Secure HTTP headers
+* Input validation
+* Password hashing
+* Avoiding sensitive data in logs
+
+Do not add unnecessary dependencies.
+
+## Logging
+
+Use structured logging with Pino.
+
+Log:
+
+* Application startup
+* MongoDB connection
+* HTTP requests
+* Errors
+* Graceful shutdown
+
+Never log:
+
+* Passwords
+* Tokens
+* Secrets
+* MongoDB credentials
+
+## Scripts
+
+Configure useful npm scripts such as:
+
+* `npm run dev`
+* `npm run build`
+* `npm run start`
+* `npm run lint`
+* `npm run lint:fix`
+* `npm run format`
+* `npm run test`
+* `npm run test:watch`
+* `npm run typecheck`
+
+Make sure every script actually works with the generated project.
+
+## TypeScript
+
+Configure strict TypeScript settings.
+
+Prefer:
+
+* `strict: true`
+* No implicit `any`
+* Proper type inference
+* Explicit types at application boundaries
+* ESM-compatible configuration
+* Separate development/build configuration only if necessary
+
+Avoid unnecessary TypeScript complexity.
+
+## Testing
+
+Add unit and integration tests.
+
+Test at minimum:
+
+* User creation
+* User validation
+* Duplicate email
+* Get user
+* User not found
+* Update user
+* Delete user
+* Pagination
+* Invalid ObjectId
+* Global error handling
+* MongoDB integration
+
+Use an appropriate MongoDB test strategy, such as an isolated test database or MongoDB Memory Server where appropriate.
+
+## Docker
+
+Provide:
+
+### Dockerfile
+
+Create a production-ready multi-stage Dockerfile.
+
+### docker-compose.yml
+
+Provide a local development setup containing:
+
+* API
+* MongoDB
+
+Use environment variables rather than hard-coded secrets.
+
+## Health Check
+
+Create:
+
+GET /health
+
+Response:
+
+{
+"success": true,
+"data": {
+"status": "ok",
+"database": "connected"
+}
+}
+
+The health check should accurately report MongoDB connectivity.
+
+## Graceful Shutdown
+
+Handle:
+
+* SIGINT
+* SIGTERM
+
+Gracefully:
+
+1. Stop accepting new requests
+2. Close the HTTP server
+3. Close MongoDB connections
+4. Flush/close logging resources
+5. Exit the process
+
+## README
+
+Create a comprehensive README containing:
+
+1. Project overview
+2. Technology stack
+3. Prerequisites
+4. Installation
+5. Environment variables
+6. MongoDB setup
+7. Development commands
+8. Production build
+9. Running with Docker
+10. API endpoints
+11. Testing
+12. Linting
+13. Project architecture
+14. Error handling
+15. Deployment notes
+
+Include example API requests using curl.
+
+## Important Requirements
+
+* Use the latest stable package versions.
+* Verify package compatibility before generating `package.json`.
+* Do not use deprecated APIs.
+* Do not use CommonJS unless there is a specific compatibility reason.
+* Do not use `any` unless absolutely unavoidable.
+* Do not use `@types/express` or other type packages if they are unnecessary because the package already provides its own types.
+* Do not introduce unnecessary abstractions.
+* Keep the code readable and maintainable.
+* Follow SOLID principles where they provide real value.
+* Use dependency injection only where it improves testability or architecture.
+* Keep controllers thin.
+* Put business logic in services.
+* Keep database access in the appropriate data/model layer.
+* Keep configuration centralized.
+* Never commit `.env`.
+* Include `.env.example`.
+
+## Output Format
+
+Generate the project in the following order:
+
+1. Architecture overview
+2. Complete folder structure
+3. `package.json`
+4. TypeScript configuration
+5. Environment configuration
+6. MongoDB configuration
+7. Application bootstrap
+8. Middleware
+9. User module
+10. Routes
+11. Error handling
+12. Logging
+13. Tests
+14. Docker configuration
+15. `.env.example`
+16. `.gitignore`
+17. README
+18. Installation and startup commands
+
+For every file, provide its **complete contents**, not snippets.
+
+After generating the project, perform a consistency check:
+
+* Verify all imports/exports match.
+* Verify all npm scripts reference valid commands.
+* Verify TypeScript compilation.
+* Verify ESLint configuration.
+* Verify tests can run.
+* Verify MongoDB configuration.
+* Verify Docker configuration.
+* Verify ESM/module configuration.
+* Verify there are no deprecated or incompatible dependencies.
+
+If something cannot be verified, explicitly state what needs to be checked rather than pretending it was verified.
