@@ -1,4 +1,5 @@
 import { comparePassword } from "../../common/helpers/bcrypt.helper.js"
+import { generateAccessToken } from "../../common/helpers/jwt.helper.js"
 import { AppError } from "../../common/utils/error.js"
 import { IUser, UserRole } from "../user/user.model.js"
 import { userRepository } from "../user/user.repository.js"
@@ -23,7 +24,9 @@ export class AuthService {
   }
 
   const userData = user.toObject()
-  return userData
+  const { password: _password, ...userWithoutPassword } = userData
+  const token = generateAccessToken({ userId: userData._id.toString(), role: userData.role })
+  return { user: userWithoutPassword, token }
  }
 }
 
