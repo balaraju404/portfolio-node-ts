@@ -1,8 +1,9 @@
 import jwt, { SignOptions } from "jsonwebtoken"
+import { UserRole } from "../../modules/user/user.model.js"
 
 interface JwtPayload {
  userId: string
- role: string
+ role: UserRole
 }
 
 const getJwtSecret = (): string => {
