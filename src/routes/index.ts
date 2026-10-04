@@ -1,9 +1,9 @@
-import { Router } from "express";
-import userRoutes from "./user.routes.js";
+import { Router } from "express"
 
-const router = Router();
+import userRouter from "../modules/user/user.routes.js"
 
-// API routes
-router.use("/users", userRoutes);
+const router = Router()
 
-export default router;
+router.use("/users", userRouter)
+
+export default router
