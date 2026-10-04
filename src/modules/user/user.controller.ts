@@ -21,8 +21,8 @@ export class UserController {
  }
 
  async getUsers(req: Request, res: Response) {
-  const page = Number(req.query.page)
-  const limit = Number(req.query.limit)
+  const page = Number(req.body.page)
+  const limit = Number(req.body.limit)
   const result = await userService.getUsers(page, limit)
   return sendOk(res, "Users fetched successfully", result)
  }

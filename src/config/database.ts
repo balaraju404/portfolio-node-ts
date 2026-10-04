@@ -17,7 +17,9 @@ export const connectDatabase = async (): Promise<void> => {
  const mongoUri = `mongodb+srv://${encodedUsername}:${encodedPassword}@${cluster}/${database}`
 
  try {
-  await mongoose.connect(mongoUri)
+  await mongoose.connect(mongoUri, {
+   timeoutMS: 30000,
+  })
 
   console.log("MongoDB connected successfully")
   console.log(`Database: ${mongoose.connection.name}`)
