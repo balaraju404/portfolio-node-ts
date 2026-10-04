@@ -1,6 +1,11 @@
 import mongoose, { InferSchemaType } from "mongoose"
 import { COLLECTIONS } from "../../common/constants/collections.js"
 
+export enum UserRole {
+ ADMIN = "admin",
+ USER = "user"
+}
+
 const userSchema = new mongoose.Schema(
  {
   name: {
@@ -20,8 +25,8 @@ const userSchema = new mongoose.Schema(
   role: {
    type: String,
    required: true,
-   enum: ["admin", "user"],
-   default: "user"
+   enum: Object.values(UserRole),
+   default: UserRole.USER
   },
 
   password: {

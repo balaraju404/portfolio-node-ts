@@ -1,6 +1,6 @@
-import bcrypt from "bcrypt"
 import { userRepository } from "./user.repository.js"
 import { IUser } from "./user.model.js"
+import { hashPassword } from "../../common/helpers/bcrypt.helper.js"
 
 export class UserService {
  async createUser(data: Partial<IUser>) {
@@ -8,7 +8,7 @@ export class UserService {
    throw new Error("Password is required")
   }
 
-  const password = await bcrypt.hash(data.password, 12)
+  const password = await hashPassword(data.password)
 
   return userRepository.create({ ...data, password })
  }
@@ -17,7 +17,7 @@ export class UserService {
   const updateData = { ...data }
 
   if (updateData.password) {
-   updateData.password = await bcrypt.hash(updateData.password, 12)
+   updateData.password = await hashPassword(updateData.password)
   }
 
   return userRepository.updateById(id, updateData)
