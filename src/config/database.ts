@@ -1,14 +1,17 @@
 import mongoose from "mongoose"
 
-export const connectDatabase = async (): Promise<void> => {
+const connectDatabase = async (): Promise<void> => {
+ if (mongoose.connection.readyState === 1) {
+  return
+ }
+
  const username = process.env.MONGODB_USERNAME
  const password = process.env.MONGODB_PASSWORD
  const cluster = process.env.MONGODB_CLUSTER
  const database = process.env.MONGODB_DATABASE
 
  if (!username || !password || !cluster || !database) {
-  console.error("MongoDB configuration is incomplete. Please check MONGODB_USERNAME, MONGODB_PASSWORD, MONGODB_CLUSTER and MONGODB_DATABASE.")
-  process.exit(1)
+  throw new Error("MongoDB configuration is incomplete. Please check your environment variables.")
  }
 
  const encodedUsername = encodeURIComponent(username)
@@ -18,20 +21,15 @@ export const connectDatabase = async (): Promise<void> => {
 
  try {
   await mongoose.connect(mongoUri, {
-   timeoutMS: 30000,
+   serverSelectionTimeoutMS: 30000
   })
 
   console.log("MongoDB connected successfully")
   console.log(`Database: ${mongoose.connection.name}`)
  } catch (error) {
-  console.error("MongoDB connection failed.")
-
-  if (error instanceof Error) {
-   console.error(error.message)
-  } else {
-   console.error(error)
-  }
-
-  process.exit(1)
+  console.error("MongoDB connection failed:", error)
+  throw error
  }
 }
+
+export { connectDatabase }
