@@ -11,22 +11,35 @@ export class AuthService {
  }
 
  async login(email: string, password: string) {
-  const user = await userRepository.findOne({ email }, { select: "+password" })
+  const normalizedEmail = email.trim().toLowerCase()
 
-  if (!user) {
+  const user = await userRepository.findOne(
+   { email: normalizedEmail },
+   { select: "+password" }
+  )
+
+  if (!user?.password) {
    throw new AppError("Invalid email or password", 401)
   }
 
-  const isMatch = await comparePassword(password, user.password)
+  const isPasswordValid = await comparePassword(password, user.password)
 
-  if (!isMatch) {
+  if (!isPasswordValid) {
    throw new AppError("Invalid email or password", 401)
   }
+
+  const token = generateAccessToken({
+   userId: user._id.toString(),
+   role: user.role
+  })
 
   const userData = user.toObject()
-  const { password: _password, ...userWithoutPassword } = userData
-  const token = generateAccessToken({ userId: userData._id.toString(), role: userData.role })
-  return { user: userWithoutPassword, token }
+  const { password: _, ...userWithoutPassword } = userData
+
+  return {
+   user: userWithoutPassword,
+   token
+  }
  }
 }
 
