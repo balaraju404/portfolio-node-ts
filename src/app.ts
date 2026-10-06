@@ -5,7 +5,6 @@ import { errorHandler } from "./common/middleware/error.handler.js"
 import { config } from "./config/config.js"
 
 const app = express()
-console.log(config.cors.allowedOrigins);
 
 app.use(
  cors({
