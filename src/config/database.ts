@@ -1,14 +1,12 @@
 import mongoose from "mongoose"
+import { config } from "./config.js"
 
 const connectDatabase = async (): Promise<void> => {
  if (mongoose.connection.readyState === 1) {
   return
  }
 
- const username = process.env.MONGODB_USERNAME
- const password = process.env.MONGODB_PASSWORD
- const cluster = process.env.MONGODB_CLUSTER
- const database = process.env.MONGODB_DATABASE
+ const { username, password, cluster, database } = config.database
 
  if (!username || !password || !cluster || !database) {
   throw new Error("MongoDB configuration is incomplete. Please check your environment variables.")

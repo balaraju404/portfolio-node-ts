@@ -1,28 +1,17 @@
-import jwt, { SignOptions } from "jsonwebtoken"
+import jwt from "jsonwebtoken"
 import { UserRole } from "../../modules/user/user.model.js"
+import { config } from "../../config/config.js"
 
 interface JwtPayload {
  userId: string
  role: UserRole
 }
 
-const getJwtSecret = (): string => {
- const secret = process.env.JWT_SECRET
-
- if (!secret) {
-  throw new Error("JWT_SECRET is not configured")
- }
-
- return secret
-}
-
-export const generateAccessToken = (
- payload: JwtPayload,
- expiresIn: SignOptions["expiresIn"] = "1d"
-): string => {
- return jwt.sign(payload, getJwtSecret(), { expiresIn })
+export const generateAccessToken = (payload: JwtPayload): string => {
+ const { secret, expiresIn } = config.jwt
+ return jwt.sign(payload, secret, { expiresIn })
 }
 
 export const verifyAccessToken = (token: string): JwtPayload => {
- return jwt.verify(token, getJwtSecret()) as JwtPayload
+ return jwt.verify(token, config.jwt.secret) as JwtPayload
 }
