@@ -203,7 +203,7 @@ export class MongooseRepository<T> {
   const totalPages = Math.ceil(total / limit)
 
   return {
-   data,
+   records: data,
    pagination: {
     page,
     limit,
